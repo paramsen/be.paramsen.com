@@ -23,7 +23,7 @@ function setupServer() {
 
     app.get('/', (req, res) => {
         res.json({
-            message: 'success'
+            message: 'Hello World!'
         });
     });
 
@@ -38,9 +38,4 @@ function setupBase() {
     } else {
         log.info('NODE_ENV: ' + ENVIRONMENT);
     }
-
-    String.prototype.trunc = String.prototype.trunc ||
-        function(n) {
-            return (this.length > n) ? this.substr(0, n - 1) + '..' : this;
-    };
 }
