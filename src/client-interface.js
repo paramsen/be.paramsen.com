@@ -10,8 +10,7 @@ const REDIS_PORT = 6379;
 
 const express = require('express'),
     bodyParser = require('body-parser'),
-    Log = require('log'),
-    Redis = require('redis');
+    Log = require('log');
 
 const log = new Log('info');
 const redis = Redis.createClient(REDIS_PORT, REDIS_HOST);
