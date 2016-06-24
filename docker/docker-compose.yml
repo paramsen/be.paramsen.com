@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  be:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    expose:
+      - "8080"
+    container_name: "be"
+

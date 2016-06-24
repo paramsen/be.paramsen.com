@@ -1,0 +1,20 @@
+{
+  "name": "smhi_poller",
+  "version": "1.0.0",
+  "description": "App for pushing clients when SMHI has announced *new* alerts",
+  "author": "Pär Amsen @ Nixon Nixon / par.nils.amsen@gmail.com",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "4.13.4",
+    "body-parser": "1.15.1",
+    "node-schedule": "1.1.0",
+    "log": "1.4.0",
+    "redis": "2.6.1",
+    "request": "2.72.0",
+    "node-zip": "1.1.1"
+  }
+}
+
