@@ -1,11 +1,13 @@
 'use strict';
 
 /**
+ * Entry, starts Express inits base
+ *
  * @author Pär Amsen / par.nils.amsen@gmail.com / 2016
  */
 const PORT = 8080;
 
-const dep = require('./dependency'),
+const dep = require('./base/dependency'),
     app = (require('express'))(),
     bodyParser = require('body-parser'),
     log = dep.log,

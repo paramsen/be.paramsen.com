@@ -12,7 +12,8 @@
     "body-parser": "1.15.1",
     "log": "1.4.0",
     "request": "2.72.0",
-    "node-zip": "1.1.1"
+    "node-zip": "1.1.1",
+    "mysql": "2.11.1"
   }
 }
 
