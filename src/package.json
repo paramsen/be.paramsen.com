@@ -1,11 +1,12 @@
 {
-  "name": "smhi_poller",
+  "name": "paramsen.com",
   "version": "1.0.0",
   "description": "App for pushing clients when SMHI has announced *new* alerts",
   "author": "Pär Amsen @ Nixon Nixon / par.nils.amsen@gmail.com",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "mocha"
   },
   "dependencies": {
     "express": "4.13.4",
@@ -13,7 +14,10 @@
     "log": "1.4.0",
     "request": "2.72.0",
     "node-zip": "1.1.1",
-    "mysql": "2.11.1"
+    "mysql": "2.11.1",
+    "eslint": "*",
+    "mocha": "*",
+    "chai": "*",
+    "chai-as-promised": "*"
   }
 }
-
