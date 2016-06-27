@@ -1,5 +1,6 @@
 #!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-pushd /www/modules/be/src > /dev/null
-env DB_HOST=$(docker inspect --format '{{ .NetworkSettings.Networks.dev_default.IPAddress }}' $(docker ps | grep db-test | cut -d " " -f 1)) npm test
+pushd $DIR/../ > /dev/null
+env DB_HOST=192.168.33.10 DB_USER=root DB_PW=root DB_NAME=db NODE_ENV=test npm test
 popd > /dev/null

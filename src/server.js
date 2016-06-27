@@ -35,8 +35,8 @@ function setupServer() {
 }
 
 function setupBase() {
-    if (ENVIRONMENT !== 'development' && ENVIRONMENT !== 'production') {
-        throw 'Set env var NODE_ENV to either \"development\" or \"production\" in host (host == container if dockerized)'
+    if (ENVIRONMENT !== 'development' && ENVIRONMENT !== 'test' && ENVIRONMENT !== 'production') {
+        throw 'Set env var NODE_ENV to either \"development\", \"test\" or \"production\" in host (host == container if dockerized)'
     } else {
         log.info('NODE_ENV: ' + ENVIRONMENT);
     }
