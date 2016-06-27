@@ -23,6 +23,13 @@ describe('Article repository', function() {
             .catch(error => done(error));
     });
 
+    after(function(done) {
+        conn.pool.end(error => {
+            if(error) return done(error);
+            done();
+        });
+    });
+
     describe('#get', function() {
         it('returns result', function() {
             return expect(repo.get(articleId)).to.eventually.have.length(1);
