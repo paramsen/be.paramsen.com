@@ -1,10 +1,13 @@
+const root = '../../../';
+
 const chai = require('chai');
 const expect = chai.expect;
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
+chai.should();
+chai.use(require('chai-things'));
+chai.use(require('chai-as-promised'));
 
-const repo = require('../persistence/repository/article');
-const conn = require('../persistence/connection');
+const repo = require(root + 'persistence/repository/article');
+const conn = require(root + 'persistence/connection');
 
 describe('Article repository', function() {
     var articleId;
@@ -32,9 +35,30 @@ describe('Article repository', function() {
         });
     });
 
+    describe('#getAll: Check hash', function() {
+        it('returns results', function() {
+            return expect(repo.getAll()).to.eventually.include.something.that.deep.contain.any.keys('id');
+        });
+    });
+
+    describe('#getAll: Check hash negation', function() {
+        it('returns results', function() {
+            return expect(repo.getAll()).to.eventually.include.something.that.not.deep.contain.any.keys('ids');
+        });
+    });
+
     describe('#put', function() {
         it('returns results', function() {
             return expect(repo.put({title: 'Title', body: 'Body', created: new Date(), updated: new Date()})).to.eventually.be.ok;
+        });
+    });
+
+    describe('#put -> #get', function() {
+        it('returns results', function() {
+            return expect(
+                repo.put({title: 'Title', body: 'Body', created: new Date(), updated: new Date()})
+                .then(success => repo.get(success.insertId)))
+            .to.eventually.have.length(1);
         });
     });
 });
