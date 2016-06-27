@@ -44,5 +44,3 @@ module.exports.put = (query, value) => {
 };
 
 module.exports.pool = pool;
-
-module.exports.close = pool.end;

@@ -8,7 +8,9 @@
 const PORT = 8080;
 
 const dep = require('./base/dependency'),
-    app = (require('express'))(),
+    express = require('express'),
+    app = express(),
+    router = express.Router(),
     bodyParser = require('body-parser'),
     log = dep.log,
     ENVIRONMENT = dep.ENVIRONMENT;
@@ -23,12 +25,15 @@ function setupServer() {
 
     app.use(bodyParser.json());
 
-    app.get('/', (req, res) => {
+    router.use('/article', require('./api/article').api);
+
+    router.get('/', (req, res) => {
         res.json({
             message: 'Hello World!'
         });
     });
 
+    app.use(router);
     app.listen(PORT);
 
     log.info('Express started [port: ' + PORT + ']');
