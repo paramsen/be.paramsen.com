@@ -2,7 +2,9 @@ const conn = require('../connection'),
     log = require('../../base/dependency').log;
 
 module.exports.put = article => {
-    return conn.put('INSERT INTO Article (title, body, created, updated) VALUES (?, ?, ?, ?)', [article.title, article.body, article.created, article.updated]);
+    return conn.put('INSERT INTO Article (title, body, created, updated) VALUES (?, ?, ?, ?)', [article.title, article.body, article.created, article.updated]).then(success => {
+        return success.insertId;
+    });
 }
 
 module.exports.update = article => {
@@ -12,7 +14,6 @@ module.exports.update = article => {
 }
 
 module.exports.get = id => {
-    log.info(id);
     return conn.query('SELECT * FROM Article WHERE id = ?',  [id]).then(transform);
 }
 

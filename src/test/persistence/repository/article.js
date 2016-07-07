@@ -17,7 +17,7 @@ describe('Article repository', function() {
             .then(success => repo.put({title: 'Title1', body: 'Body1', created: new Date(), updated: new Date()}))
             .then(success => repo.put({title: 'Title2', body: 'Body2', created: new Date(), updated: new Date()}))
             .then(success => {
-                articleId = success.insertId;
+                articleId = success;
                 done();
             })
             .catch(error => done(error));
@@ -63,7 +63,7 @@ describe('Article repository', function() {
     describe('#put -> #get', function() {
         it('puts row and gets it', function() {
             return expect(repo.put({title: 'Title', body: 'Body', created: new Date(), updated: new Date()})
-                    .then(success => repo.get(success.insertId)))
+                    .then(success => repo.get(success)))
                     .to.eventually.have.length(1);
         });
     });
