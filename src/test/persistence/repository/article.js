@@ -16,6 +16,9 @@ describe('Article repository', function() {
         conn.query('DELETE FROM Article')
             .then(success => repo.put({title: 'Title1', body: 'Body1', created: new Date(), updated: new Date()}))
             .then(success => repo.put({title: 'Title2', body: 'Body2', created: new Date(), updated: new Date()}))
+            .then(success => repo.put({title: 'Title3', body: 'Body3', created: new Date(), updated: new Date()}))
+            .then(success => repo.put({title: 'Title4', body: 'Body4', created: new Date(), updated: new Date()}))
+            .then(success => repo.put({title: 'Title5', body: 'Body5', created: new Date(), updated: new Date()}))
             .then(success => {
                 articleId = success;
                 done();
@@ -32,13 +35,19 @@ describe('Article repository', function() {
 
     describe('#get', function() {
         it('returns result', function() {
-            return expect(repo.get(articleId)).to.eventually.include.a.thing.with.property('title', 'Title2');
+            return expect(repo.get(articleId)).to.eventually.include.a.thing.with.property('title', 'Title5');
+        });
+    });
+
+    describe('#getPage', function() {
+        it('returns result', function() {
+            return expect(repo.getPage(1, 2)).to.eventually.include.a.thing.with.property('title', 'Title3');
         });
     });
 
     describe('#getAll', function() {
         it('returns results', function() {
-            return expect(repo.getAll()).to.eventually.have.length(2);
+            return expect(repo.getAll()).to.eventually.have.length(5);
         });
     });
 

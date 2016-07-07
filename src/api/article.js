@@ -30,11 +30,12 @@ router.post('/update', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    repo.getAll()
+    repo.getPage(parseInt(req.query.from) || 0, parseInt(req.query.count) || 10)
         .then(success => {
             res.json({article: success});
         })
         .catch(error => {
+            log.error(error);
             res.status(404).json({message: 'fail'});
         });
 });
