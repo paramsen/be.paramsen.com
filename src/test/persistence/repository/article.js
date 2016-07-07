@@ -32,7 +32,7 @@ describe('Article repository', function() {
 
     describe('#get', function() {
         it('returns result', function() {
-            return expect(repo.get(articleId)).to.eventually.have.length(1);
+            return expect(repo.get(articleId)).to.eventually.include.a.thing.with.property('title', 'Title2');
         });
     });
 
@@ -70,8 +70,8 @@ describe('Article repository', function() {
 
     describe('#update -> #get', function() {
         it('updates existing row and gets it', function() {
-            return expect(repo.put({title: 'Updated', body: 'Updated', updated: new Date(), id: 1})
-                    .then(success => repo.get(success.insertId)))
+            return expect(repo.update({title: 'Updated', body: 'Updated', updated: new Date(), id: articleId})
+                    .then(success => repo.get(success)))
                     .to.eventually.include.a.thing.with.property('title', 'Updated');
         });
     });

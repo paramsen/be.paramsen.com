@@ -5,8 +5,6 @@ const router = require('express').Router(),
 module.exports.api = router;
 
 router.post('/create', (req, res) => {
-    log.info(JSON.stringify(req.body));
-
     req.body.article.created = new Date();
     req.body.article.updated = new Date();
 
@@ -20,6 +18,8 @@ router.post('/create', (req, res) => {
 });
 
 router.post('/update', (req, res) => {
+    req.body.article.updated = new Date();
+
     repo.update(req.body.article)
         .then(success => {
             res.json({message: 'success'});
@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    repo.get(req.id)
+    repo.get(req.params.id)
         .then(success => {
             res.json({article: success});
         })
