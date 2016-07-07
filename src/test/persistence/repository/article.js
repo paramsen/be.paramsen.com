@@ -55,17 +55,24 @@ describe('Article repository', function() {
     });
 
     describe('#put', function() {
-        it('returns results', function() {
+        it('puts row', function() {
             return expect(repo.put({title: 'Title', body: 'Body', created: new Date(), updated: new Date()})).to.eventually.be.ok;
         });
     });
 
     describe('#put -> #get', function() {
-        it('returns results', function() {
-            return expect(
-                repo.put({title: 'Title', body: 'Body', created: new Date(), updated: new Date()})
-                .then(success => repo.get(success.insertId)))
-            .to.eventually.have.length(1);
+        it('puts row and gets it', function() {
+            return expect(repo.put({title: 'Title', body: 'Body', created: new Date(), updated: new Date()})
+                    .then(success => repo.get(success.insertId)))
+                    .to.eventually.have.length(1);
+        });
+    });
+
+    describe('#update -> #get', function() {
+        it('updates existing row and gets it', function() {
+            return expect(repo.put({title: 'Updated', body: 'Updated', updated: new Date(), id: 1})
+                    .then(success => repo.get(success.insertId)))
+                    .to.eventually.include.a.thing.with.property('title', 'Updated');
         });
     });
 });

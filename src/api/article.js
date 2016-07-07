@@ -20,7 +20,7 @@ router.post('/create', (req, res) => {
 });
 
 router.post('/update', (req, res) => {
-    repo.put(req.body.user)
+    repo.update(req.body.article)
         .then(success => {
             res.json({message: 'success'});
         })
