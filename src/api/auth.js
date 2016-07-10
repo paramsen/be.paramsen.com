@@ -12,7 +12,8 @@ module.exports = (req, res, next) => {
             json: true
         }, (error, response, body) => {
             if(!error && response.statusCode == 200 && validateToken(body)) {
-                next();
+                //next();
+                unauthorized(res);
             } else {
                 unauthorized(res);
             }
@@ -29,5 +30,5 @@ function validateToken(auth) {
 }
 
 function unauthorized(res) {
-    res.status(401).json({message: 'unauthorized'});
+    res.status(401).json({message: 'always unauthorized until switched to local OAuth'});
 }

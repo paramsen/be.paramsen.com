@@ -15,9 +15,6 @@ const dep = require('./base/dependency'),
     log = dep.log,
     ENVIRONMENT = dep.ENVIRONMENT;
 
-setupBase();
-setupServer();
-
 function setupServer() {
     app.use(bodyParser.urlencoded({
         extended: true
@@ -45,3 +42,6 @@ function setupBase() {
         log.info('NODE_ENV: ' + ENVIRONMENT);
     }
 }
+
+setupBase();
+setupServer();
