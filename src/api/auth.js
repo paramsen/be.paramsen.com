@@ -30,5 +30,5 @@ function validateToken(auth) {
 }
 
 function unauthorized(res) {
-    res.status(401).json({message: 'always unauthorized until switched to local OAuth'});
+    res.status(401).json({message: 'integrate passport local storage'});
 }
