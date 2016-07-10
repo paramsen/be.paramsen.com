@@ -1,10 +1,11 @@
 const router = require('express').Router(),
+    auth = require('./auth'),
     repo = require('../persistence/repository/article'),
     log = require('../base/dependency').log;
 
 module.exports.api = router;
 
-router.post('/create', (req, res) => {
+router.post('/create', auth, (req, res) => {
     req.body.article.created = new Date();
     req.body.article.updated = new Date();
 
@@ -17,7 +18,7 @@ router.post('/create', (req, res) => {
         });
 });
 
-router.post('/update', (req, res) => {
+router.post('/update', auth, (req, res) => {
     req.body.article.updated = new Date();
 
     repo.update(req.body.article)
@@ -35,7 +36,6 @@ router.get('/', (req, res) => {
             res.json({article: success});
         })
         .catch(error => {
-            log.error(error);
             res.status(404).json({message: 'fail'});
         });
 });

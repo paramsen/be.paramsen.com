@@ -25,9 +25,9 @@ function setupServer() {
 
     app.use(bodyParser.json());
 
-    router.use('/article', require('./api/article').api);
+    router.use('/api/article', require('./api/article').api);
 
-    router.get('/', (req, res) => {
+    router.get('/api', (req, res) => {
         res.json({
             message: 'Hello World!'
         });
