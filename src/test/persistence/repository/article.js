@@ -14,11 +14,11 @@ describe('Article repository', function() {
 
     beforeEach(function(done) {
         conn.query('DELETE FROM Article')
-            .then(success => repo.put({title: 'Title1', body: 'Body1', created: new Date(), updated: new Date()}))
-            .then(success => repo.put({title: 'Title2', body: 'Body2', created: new Date(), updated: new Date()}))
-            .then(success => repo.put({title: 'Title3', body: 'Body3', created: new Date(), updated: new Date()}))
-            .then(success => repo.put({title: 'Title4', body: 'Body4', created: new Date(), updated: new Date()}))
-            .then(success => repo.put({title: 'Title5', body: 'Body5', created: new Date(), updated: new Date()}))
+            .then(success => repo.put({title: 'Title1', body: 'Body1', excerpt: 'Excerpt1', created: new Date(), updated: new Date()}))
+            .then(success => repo.put({title: 'Title2', body: 'Body2', excerpt: 'Excerpt2', created: new Date(), updated: new Date()}))
+            .then(success => repo.put({title: 'Title3', body: 'Body3', excerpt: 'Excerpt3', created: new Date(), updated: new Date()}))
+            .then(success => repo.put({title: 'Title4', body: 'Body4', excerpt: 'Excerpt4', created: new Date(), updated: new Date()}))
+            .then(success => repo.put({title: 'Title5', body: 'Body5', excerpt: 'Excerpt5', created: new Date(), updated: new Date()}))
             .then(success => {
                 articleId = success;
                 done();
@@ -65,13 +65,19 @@ describe('Article repository', function() {
 
     describe('#put', function() {
         it('puts row', function() {
-            return expect(repo.put({title: 'Title', body: 'Body', created: new Date(), updated: new Date()})).to.eventually.be.ok;
+            return expect(repo.put({title: 'Title', body: 'Body', excerpt: 'Excerpt', created: new Date(), updated: new Date()})).to.eventually.be.ok;
+        });
+    });
+
+    describe('#put: Title constraint', function() {
+        it('puts row', function() {
+            return expect(repo.put({title: 'TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle', body: 'Body', excerpt: 'Excerpt', created: new Date(), updated: new Date()})).to.eventually.be.nok;
         });
     });
 
     describe('#put -> #get', function() {
         it('puts row and gets it', function() {
-            return expect(repo.put({title: 'Title', body: 'Body', created: new Date(), updated: new Date()})
+            return expect(repo.put({title: 'Title', body: 'Body', excerpt: 'Excerpt', created: new Date(), updated: new Date()})
                     .then(success => repo.get(success)))
                     .to.eventually.have.length(1);
         });
@@ -79,7 +85,7 @@ describe('Article repository', function() {
 
     describe('#update -> #get', function() {
         it('updates existing row and gets it', function() {
-            return expect(repo.update({title: 'Updated', body: 'Updated', updated: new Date(), id: articleId})
+            return expect(repo.update({title: 'Updated', body: 'Updated', excerpt: 'Updated', updated: new Date(), id: articleId})
                     .then(success => repo.get(success)))
                     .to.eventually.include.a.thing.with.property('title', 'Updated');
         });

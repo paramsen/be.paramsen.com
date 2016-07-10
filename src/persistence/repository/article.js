@@ -2,13 +2,13 @@ const conn = require('../connection'),
     log = require('../../base/dependency').log;
 
 module.exports.put = article => {
-    return conn.put('INSERT INTO Article (title, body, created, updated) VALUES (?, ?, ?, ?)', [article.title, article.body, article.created, article.updated]).then(success => {
+    return conn.put('INSERT INTO Article (title, body, excerpt, created, updated) VALUES (?, ?, ?, ?, ?)', [article.title, article.body, article.excerpt, article.created, article.updated]).then(success => {
         return success.insertId;
     });
 }
 
 module.exports.update = article => {
-    return conn.put('UPDATE Article SET title = ?, body = ?, updated = ? WHERE id = ?', [article.title, article.body, article.updated, article.id]).then(success => {
+    return conn.put('UPDATE Article SET title = ?, body = ?, excerpt = ?, updated = ? WHERE id = ?', [article.title, article.body, article.excerpt, article.updated, article.id]).then(success => {
         return article.id;
     });
 }
@@ -28,6 +28,7 @@ module.exports.getAll = () => {
 function transform(articles) {
     articles.forEach(article => {
         article.body = article.body.toString('utf-8');
+        article.excerpt = article.excerpt.toString('utf-8');
     });
 
     return articles;

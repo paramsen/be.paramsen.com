@@ -29,7 +29,5 @@ function validateToken(auth) {
 }
 
 function unauthorized(res) {
-    res.status(401).json({
-        message: 'unauthorized'
-    });
+    res.status(401).json({message: 'unauthorized'});
 }

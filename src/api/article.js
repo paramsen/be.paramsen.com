@@ -5,7 +5,7 @@ const router = require('express').Router(),
 
 module.exports.api = router;
 
-router.post('/create', auth, (req, res) => {
+router.post('/create', auth, (req, res, next) => {
     req.body.article.created = new Date();
     req.body.article.updated = new Date();
 
@@ -14,11 +14,11 @@ router.post('/create', auth, (req, res) => {
             res.json({message: 'success'});
         })
         .catch(error => {
-            res.status(404).json({message: 'fail'});
+            next(error);
         });
 });
 
-router.post('/update', auth, (req, res) => {
+router.post('/update', auth, (req, res, next) => {
     req.body.article.updated = new Date();
 
     repo.update(req.body.article)
@@ -26,26 +26,26 @@ router.post('/update', auth, (req, res) => {
             res.json({message: 'success'});
         })
         .catch(error => {
-            res.status(404).json({message: 'fail'});
+            next(error);
         });
 });
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     repo.getPage(parseInt(req.query.from) || 0, parseInt(req.query.count) || 10)
         .then(success => {
             res.json({article: success});
         })
         .catch(error => {
-            res.status(404).json({message: 'fail'});
+            next(error);
         });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
     repo.get(req.params.id)
         .then(success => {
             res.json({article: success});
         })
         .catch(error => {
-            res.status(404).json({message: 'fail'});
+            next(error);
         });
 });

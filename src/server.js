@@ -27,13 +27,12 @@ function setupServer() {
 
     router.use('/api/article', require('./api/article').api);
 
-    router.get('/api', (req, res) => {
-        res.json({
-            message: 'Hello World!'
-        });
+    app.use(router);
+    app.use((err, req, res, next) => {
+        log.error(err.stack);
+        res.status(500).json({message: 'fail'});
     });
 
-    app.use(router);
     app.listen(PORT);
 
     log.info('Express started [port: ' + PORT + ']');
