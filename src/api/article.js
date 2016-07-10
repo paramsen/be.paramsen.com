@@ -5,7 +5,7 @@ const router = require('express').Router(),
 
 module.exports.api = router;
 
-router.post('/create', auth, (req, res, next) => {
+router.post('/create', auth.authenticate, (req, res, next) => {
     req.body.article.created = new Date();
     req.body.article.updated = new Date();
 
@@ -18,7 +18,7 @@ router.post('/create', auth, (req, res, next) => {
         });
 });
 
-router.post('/update', auth, (req, res, next) => {
+router.post('/update', auth.authenticate, (req, res, next) => {
     req.body.article.updated = new Date();
 
     repo.update(req.body.article)

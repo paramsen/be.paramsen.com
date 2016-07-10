@@ -1,8 +1,8 @@
 {
   "name": "paramsen.com",
   "version": "1.0.0",
-  "description": "App for pushing clients when SMHI has announced *new* alerts",
-  "author": "Pär Amsen @ Nixon Nixon / par.nils.amsen@gmail.com",
+  "description": "Self explanatory bro",
+  "author": "Pär Amsen / par.nils.amsen@gmail.com",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -10,11 +10,16 @@
   },
   "dependencies": {
     "express": "4.13.4",
+    "passport": "*",
+    "passport-local": "*",
     "body-parser": "1.15.1",
+    "express-session": "1.14.0",
+    "express-mysql-session": "1.1.1",
     "log": "1.4.0",
     "request": "2.73.0",
     "node-zip": "1.1.1",
     "mysql": "2.11.1",
+    "bcrypt": "*",
     "eslint": "*",
     "mocha": "*",
     "chai": "*",

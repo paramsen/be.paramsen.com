@@ -12,16 +12,37 @@ const dep = require('./base/dependency'),
     app = express(),
     router = express.Router(),
     bodyParser = require('body-parser'),
+    auth = require('./api/auth'),
+    db = require('persistence/connection'),
+    session = require('express-session')(secret: dep.SESSION_SECRET, resave: false, saveUninitialized: false, cookie: { secure: true, maxAge: 3600000 }),
+    MySQLStore = require('express-mysql-session')(session),
+    sessionStore = new MySQLStore({
+        checkExpirationInterval: 900000, //15 min
+        expiration: 3600000, //60 min
+        createDatabaseTable: true,
+        schema: {
+            tableName: 'Session',
+            columnNames: {
+                session_id: 'session_id',
+                expires: 'expires',
+                data: 'data'
+            }
+        }
+
+    }, db.pool),
     log = dep.log,
     ENVIRONMENT = dep.ENVIRONMENT;
 
 function setupServer() {
-    app.use(bodyParser.urlencoded({
-        extended: true
-    }));
+    app.set('trust proxy', 1);
 
+    app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
+    app.use(session);
+    app.use(auth.passport.initialize());
+    app.use(auth.passport.session());
 
+    router.use('/api/auth', auth.api);
     router.use('/api/article', require('./api/article').api);
 
     app.use(router);

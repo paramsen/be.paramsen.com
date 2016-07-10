@@ -1,34 +1,32 @@
-const request = require('request'),
+const router = require('express').Router(),
+    passport = require('passport'),
+    Strategy = require('passport-local').Strategy,
     log = require('../base/dependency').log;
 
-const publicAppId = '517748650499-0tjip61r48krpgbq9d52qc0a3b0s1rpv.apps.googleusercontent.com';
-
-module.exports = (req, res, next) => {
-    var token = req.get('Authorization');
-    
-    if(token) {
-        request({
-            uri: 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + token,
-            json: true
-        }, (error, response, body) => {
-            if(!error && response.statusCode == 200 && validateToken(body)) {
-                //next();
-                unauthorized(res);
-            } else {
-                unauthorized(res);
-            }
-        });
+module.exports.passport = passport;
+module.exports.api = router;
+module.exports.authenticate = (req, res, next) => {
+    if(req.isAuthenticated()) {
+        next();
     } else {
-        unauthorized(res);
+        res.status(402).json({ message: 'unauthorized' });
     }
-}
+};
 
-function validateToken(auth) {
-    if(auth.aud === publicAppId) {
-        return true;
-    }
-}
+passport.use(new Strategy((user, pw, done) => {
+    done(null, 'pär'); //validate credentials
 
-function unauthorized(res) {
-    res.status(401).json({message: 'integrate passport local storage'});
-}
+    //done(err); for err, done(null, false) for no such user if viable
+}));
+
+passport.serializeUser((user, done) => {
+    done(null, user.id); //save to session
+});
+
+passport.deserializeUser((user, done) => {
+    done(null, 'pär'); //get from session
+});
+
+router.post('/', passport.authenticate('local', (req, res) => {
+    res.json({ message: 'success' });
+});
