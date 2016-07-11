@@ -14,7 +14,7 @@ const dep = require('./base/dependency'),
     bodyParser = require('body-parser'),
     auth = require('./api/auth'),
     db = require('persistence/connection'),
-    session = require('express-session')(secret: dep.SESSION_SECRET, resave: false, saveUninitialized: false, cookie: { secure: true, maxAge: 3600000 }),
+    session = require('express-session')({secret: dep.SESSION_SECRET, resave: false, saveUninitialized: false, cookie: { secure: ENVIRONMENT === 'production', maxAge: 3600000 }}),
     MySQLStore = require('express-mysql-session')(session),
     sessionStore = new MySQLStore({
         checkExpirationInterval: 900000, //15 min
@@ -34,7 +34,8 @@ const dep = require('./base/dependency'),
     ENVIRONMENT = dep.ENVIRONMENT;
 
 function setupServer() {
-    app.set('trust proxy', 1);
+    if(ENVIRONMENT === 'production')
+        app.set('trust proxy', 1);
 
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());

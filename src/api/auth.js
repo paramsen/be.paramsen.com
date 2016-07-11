@@ -29,4 +29,4 @@ passport.deserializeUser((user, done) => {
 
 router.post('/', passport.authenticate('local', (req, res) => {
     res.json({ message: 'success' });
-});
+}));
