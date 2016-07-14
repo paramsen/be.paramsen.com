@@ -13,9 +13,10 @@ const dep = require('./base/dependency'),
     router = express.Router(),
     bodyParser = require('body-parser'),
     auth = require('./api/auth'),
-    db = require('persistence/connection'),
-    session = require('express-session')({secret: dep.SESSION_SECRET, resave: false, saveUninitialized: false, cookie: { secure: ENVIRONMENT === 'production', maxAge: 3600000 }}),
-    MySQLStore = require('express-mysql-session')(session),
+    db = require('./persistence/connection'),
+    rawSession = require('express-session'),
+    session = rawSession({secret: dep.SESSION_SECRET, resave: false, saveUninitialized: false, cookie: { secure: dep.ENVIRONMENT === 'production', maxAge: 3600000 }}),
+    MySQLStore = require('express-mysql-session')(rawSession),
     sessionStore = new MySQLStore({
         checkExpirationInterval: 900000, //15 min
         expiration: 3600000, //60 min
