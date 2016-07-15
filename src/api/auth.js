@@ -1,6 +1,7 @@
 const router = require('express').Router(),
     passport = require('passport'),
     Strategy = require('passport-local').Strategy,
+    userRepo = require('../persistence/repository/user'),
     log = require('../base/dependency').log;
 
 module.exports.passport = passport;
@@ -9,13 +10,18 @@ module.exports.authenticate = (req, res, next) => {
     if(req.isAuthenticated()) {
         next();
     } else {
-        res.status(402).json({ message: 'unauthorized' });
+        res.status(500).json({ message: 'unauthorized' });
     }
 };
 
 passport.use(new Strategy((user, pw, done) => {
-    done(null, 'pär'); //validate credentials
-
+    userRepo.getByUsername(user.username)
+        .then(success => {
+            done(null, success); //validate credentials
+        })
+        .catch(error => {
+            done(null, false);
+        });
     //done(err); for err, done(null, false) for no such user if viable
 }));
 
@@ -27,6 +33,6 @@ passport.deserializeUser((user, done) => {
     done(null, 'pär'); //get from session
 });
 
-router.post('/', passport.authenticate('local', (req, res) => {
+router.post('/', passport.authenticate('local'), (req, res) => {
     res.json({ message: 'success' });
-}));
+});
