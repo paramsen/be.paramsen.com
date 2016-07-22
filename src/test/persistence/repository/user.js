@@ -2,10 +2,12 @@ const root = '../../../';
 
 const chai = require('chai');
 const expect = chai.expect;
+
 chai.should();
 chai.use(require('chai-things'));
 chai.use(require('chai-as-promised'));
 
+const bcrypt = require('bcrypt');
 const repo = require(root + 'persistence/repository/user');
 const conn = require(root + 'persistence/connection');
 
@@ -22,16 +24,9 @@ describe('User repository', function() {
             .catch(error => done(error));
     });
 
-    after(function(done) {
-        conn.pool.end(error => {
-            if(error) return done(error);
-            done();
-        });
-    });
-
     describe('#get', function() {
         it('returns result', function() {
-            return expect(repo.get(userId)).to.eventually.include.a.thing.with.property('username', 'username');
+            return expect(repo.get(userId)).to.eventually.have.property('username', 'username');
         });
     });
 
@@ -51,15 +46,24 @@ describe('User repository', function() {
         it('puts row and gets it', function() {
             return expect(repo.put({username: 'zlatan', password: 'qwerty'})
                     .then(success => repo.get(success)))
-                    .to.eventually.include.a.thing.with.property('username', 'zlatan');
+                    .to.eventually.have.property('username', 'zlatan');
         });
     });
 
-    describe('#update -> #get', function() {
-        it('updates existing row and gets it', function() {
-            return expect(repo.update({username: 'pär', password: 'qwerty'})
-                    .then(success => repo.get(success)))
-                    .to.eventually.include.a.thing.with.property('username', 'pär');
+    describe('#put -> #get -> validate hash', function() {
+        it('puts row and gets it', function() {
+            return expect(repo.put({username: 'zlatan', password: 'qwerty'})
+                    .then(success => repo.get(success))
+                    .then(user => new Promise((resolve, reject) => {
+                        bcrypt.compare('qwerty', user.password, (error, result) => {
+                            if(error || !result) {
+                                reject(error);
+                            } else {
+                                resolve(result);
+                            }
+                        });
+                    })))
+                    .to.eventually.be.ok;
         });
     });
 });
