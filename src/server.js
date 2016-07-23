@@ -49,7 +49,12 @@ function setupServer() {
 
     app.use(router);
     app.use((err, req, res, next) => {
-        log.error(err.stack);
+        if(err instanceof Error) {
+            log.error(err.stack);
+        } else {
+            log.error(err);
+        }
+
         res.status(500).json({message: 'fail'});
     });
 
