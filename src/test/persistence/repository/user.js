@@ -52,10 +52,10 @@ describe('User repository', function() {
 
     describe('#put -> #get -> validate hash', function() {
         it('puts row and gets it', function() {
-            return expect(repo.put({username: 'zlatan', password: 'qwerty'})
+            return expect(repo.put({username: 'root', password: 'root'})
                     .then(success => repo.get(success))
                     .then(user => new Promise((resolve, reject) => {
-                        bcrypt.compare('qwerty', user.password, (error, result) => {
+                        bcrypt.compare('root', user.password, (error, result) => {
                             if(error || !result) {
                                 reject(error);
                             } else {
