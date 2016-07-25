@@ -3,7 +3,9 @@ const router = require('express').Router(),
     log = require('../base/dependency').log;
 
 module.exports.passport = passport;
+
 module.exports.api = router;
+
 module.exports.authenticate = (req, res, next) => {
     if(req.isAuthenticated()) {
         next();

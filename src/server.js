@@ -13,7 +13,8 @@ const dep = require('./base/dependency'),
     log = dep.log,
     ENVIRONMENT = dep.ENVIRONMENT;
 
-setupBase()
+Promise.resolve()
+    .then(setupBase())
     .then(expressConf.init())
     .then(sessionConf.init())
     .then(authConf.init())
@@ -48,6 +49,4 @@ function setupBase() {
     } else {
         log.info('NODE_ENV: ' + ENVIRONMENT);
     }
-
-    return Promise.resolve();
 }

@@ -22,12 +22,8 @@ const db = require('../persistence/connection'),
     ENVIRONMENT = dep.ENVIRONMENT;
 
 module.exports.init = () => {
-    return new Promise((resolve, reject) => {
-        if(ENVIRONMENT === 'production')
-            app.set('trust proxy', 1);
+    if(ENVIRONMENT === 'production')
+        app.set('trust proxy', 1);
 
-        app.use(session);
-
-        resolve();
-    });
-};
+    app.use(session);
+}

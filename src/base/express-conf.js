@@ -5,10 +5,6 @@ const express = require('express'),
 module.exports.app = app;
 
 module.exports.init = () => {
-    return new Promise((resolve, reject) => {
-        app.use(bodyParser.urlencoded({ extended: true }));
-        app.use(bodyParser.json());
-
-        resolve();
-    });
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
 }
