@@ -1,7 +1,3 @@
-'use strict';
-
-const PORT = 8080;
-
 const dep = require('./base/dependency'),
     express = require('express'),
     expressConf = require('./base/express-conf'),
@@ -21,9 +17,7 @@ Promise.resolve()
     .then(setupRoutes())
     .then(startServer());
 
-function setupRoutes() {
-    router.use('/api/auth', auth.api);
-    router.use('/api/article', require('./api/article').api);
+function setupRoutes() {    router.use('/api/article', require('./api/article').api);
 
     app.use(router);
 
@@ -40,7 +34,7 @@ function setupRoutes() {
 
 function startServer() {
     app.listen(PORT);
-    log.info('Express started [port: ' + PORT + ']');
+    log.info('Express started [port: ' + dep.PORT + ']');
 }
 
 function setupBase() {
