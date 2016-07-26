@@ -6,6 +6,7 @@ const passport = require('passport'),
     log = require('./dependency').log;
 
 module.exports.init = () => {
+    //Setup auth strategy
     passport.use(new Strategy((username, password, done) => {
         userRepo.getByUsername(username)
             .then(user => {

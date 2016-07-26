@@ -4,8 +4,6 @@ const dep = require('./base/dependency'),
     authConf = require('./base/auth-conf'),
     sessionConf = require('./base/session-conf'),
     app = expressConf.app,
-    router = express.Router(),
-    auth = require('./api/auth'),
     log = dep.log,
     ENVIRONMENT = dep.ENVIRONMENT;
 
@@ -17,23 +15,14 @@ Promise.resolve()
     .then(setupRoutes())
     .then(startServer());
 
-function setupRoutes() {    router.use('/api/article', require('./api/article').api);
-
-    app.use(router);
-
-    app.use((err, req, res, next) => {
-        if(err instanceof Error) {
-            log.error(err.stack);
-        } else {
-            log.error(err);
-        }
-
-        res.status(500).json({message: 'fail'});
-    });
+function setupRoutes() {    
+    app.use('/api/auth', require('./api/auth').api);
+    app.use('/api/article', require('./api/article').api);
+    app.use(errorHandler);
 }
 
 function startServer() {
-    app.listen(PORT);
+    app.listen(dep.PORT);
     log.info('Express started [port: ' + dep.PORT + ']');
 }
 
@@ -43,4 +32,14 @@ function setupBase() {
     } else {
         log.info('NODE_ENV: ' + ENVIRONMENT);
     }
+}
+
+function errorHandler(err, req, res, next)  {
+    if(err instanceof Error) {
+        log.error(err.stack);
+    } else {
+        log.error(err);
+    }
+
+   res.status(400).json({message: 'fail'});
 }
