@@ -17,8 +17,8 @@ module.exports.get = id => {
     return conn.query('SELECT * FROM Article WHERE id = ? ORDER BY updated DESC',  [id]).then(transform);
 }
 
-module.exports.getPage = (from, count) => {
-    return conn.query('SELECT * FROM Article ORDER BY updated DESC LIMIT ? OFFSET ?',  [count, from]).then(transform);
+module.exports.getPage = (index, count) => {
+    return conn.query('SELECT * FROM Article ORDER BY updated DESC LIMIT ? OFFSET ?',  [count, index]).then(transform);
 }
 
 module.exports.getAll = () => {

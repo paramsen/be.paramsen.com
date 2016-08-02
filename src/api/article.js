@@ -31,7 +31,7 @@ router.post('/update', auth.authenticate, (req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
-    repo.getPage(parseInt(req.query.from) || 0, parseInt(req.query.count) || 10)
+    repo.getPage(parseInt(req.query.index) || 0, parseInt(req.query.count) || 10)
         .then(success => {
             res.json({article: success});
         })
