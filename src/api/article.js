@@ -40,12 +40,24 @@ router.get('/', (req, res, next) => {
         });
 });
 
-router.get('/:id', (req, res, next) => {
-    repo.get(req.params.id)
+router.get('/:key', (req, res, next) => {
+    if(req.query.type === 'id') {
+        repo.get(req.params.key)
+        .then(success => {
+            res.json({article: success});
+        })
+        .catch(error => {
+            next(error);
+        });    
+    } else if(req.query.type === 'name') {
+        repo.getByName(req.params.key)
         .then(success => {
             res.json({article: success});
         })
         .catch(error => {
             next(error);
         });
+    } else {
+        next(new Error('No type chosen'));
+    }
 });
