@@ -32,6 +32,12 @@ describe('Article repository', function() {
         });
     });
 
+    describe('#getByName', function() {
+        it('returns result', function() {
+            return expect(repo.getByName('Name1')).to.eventually.include.a.thing.with.property('title', 'Title1');
+        });
+    });
+
     describe('#getPage', function() {
         it('returns result', function() {
             return expect(repo.getPage(1, 2)).to.eventually.include.a.thing.with.property('title', 'Title3');

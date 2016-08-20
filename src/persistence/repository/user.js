@@ -1,5 +1,5 @@
 const conn = require('../connection'),    
-    bcrypt = require('bcrypt'),
+    bcrypt = require('bcrypt-nodejs'),
     log = require('../../base/dependency').log;
 
 module.exports.put = user => {
@@ -22,7 +22,7 @@ module.exports.getByUsername= username => {
 
 function hash(password) {
     return new Promise((resolve, reject) => {
-        bcrypt.hash(password, 10,  (error, hash) => {
+        bcrypt.hash(password, null, null,  (error, hash) => {
             if(error) {
                 reject(error);
             } else {

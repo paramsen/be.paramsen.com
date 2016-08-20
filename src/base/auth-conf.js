@@ -2,7 +2,7 @@ const passport = require('passport'),
     app = require('./express-conf').app,
     Strategy = require('passport-local').Strategy,
     userRepo = require('../persistence/repository/user'),
-    bcrypt = require('bcrypt'),
+    bcrypt = require('bcrypt-nodejs'),
     log = require('./dependency').log;
 
 module.exports.init = () => {

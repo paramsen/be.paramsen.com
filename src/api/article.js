@@ -1,6 +1,7 @@
 const router = require('express').Router(),
     auth = require('./auth'),
     repo = require('../persistence/repository/article'),
+    markdown = require('markdown').markdown,
     log = require('../base/dependency').log;
 
 module.exports.api = router;
@@ -41,8 +42,17 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:key', (req, res, next) => {
+    function transform(articles) {
+        articles.map(article => {
+            article.body = markdown.toHTML(article.body);
+        });
+
+        return articles;
+    }
+
     if(req.query.type === 'id') {
         repo.get(req.params.key)
+        .then(transform)
         .then(success => {
             res.json({article: success});
         })
@@ -50,7 +60,8 @@ router.get('/:key', (req, res, next) => {
             next(error);
         });    
     } else if(req.query.type === 'name') {
-        repo.getByName(req.params.key)
+        repo.getByName(req.params.key)        
+        .then(transform)
         .then(success => {
             res.json({article: success});
         })

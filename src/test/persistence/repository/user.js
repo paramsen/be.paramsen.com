@@ -7,7 +7,7 @@ chai.should();
 chai.use(require('chai-things'));
 chai.use(require('chai-as-promised'));
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
 const repo = require(root + 'persistence/repository/user');
 const conn = require(root + 'persistence/connection');
 
