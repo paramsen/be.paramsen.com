@@ -3,7 +3,6 @@ const db = require('../persistence/connection'),
     express = require('express'),
     app = require('./express-conf').app,
     rawSession = require('express-session'),
-    session = rawSession({secret: dep.SESSION_SECRET, resave: false, saveUninitialized: false, cookie: { secure: dep.ENVIRONMENT === 'production', maxAge: 3600000 }}),
     MySQLStore = require('express-mysql-session')(rawSession),
     sessionStore = new MySQLStore({
         checkExpirationInterval: 900000, //15 min
@@ -19,6 +18,11 @@ const db = require('../persistence/connection'),
         }
 
     }, db.pool),
+    session = rawSession({secret: dep.SESSION_SECRET, 
+        resave: false, 
+        saveUninitialized: false, 
+        cookie: { secure: dep.ENVIRONMENT === 'production', maxAge: 3600000 },
+        store: sessionStore}),
     ENVIRONMENT = dep.ENVIRONMENT;
 
 module.exports.init = () => {
